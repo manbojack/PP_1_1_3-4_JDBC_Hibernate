@@ -83,19 +83,36 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-    public User getUserById(long id) {
-        return getAllUsers().stream()
-                .filter(user -> user.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
     public void cleanUsersTable() {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("TRUNCATE TABLE users");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public User getUserById(long id) {
+        User user = null;
+        ResultSet resultSet = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM users WHERE id = ?")
+        ) {
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                user = new User(
+                        resultSet.getString("name"),
+                        resultSet.getString("lastName"),
+                        resultSet.getByte("age")
+                );
+                user.setId(resultSet.getLong("id"));
+            } else {
+                System.out.println("No User found with id=" + id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
     }
 
 }
