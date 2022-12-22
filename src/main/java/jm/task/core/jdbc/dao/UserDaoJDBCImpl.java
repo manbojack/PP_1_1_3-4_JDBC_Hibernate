@@ -61,12 +61,13 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
+        List<User> users = null;
         try (
                 ResultSet resultSet = connection
                         .createStatement()
                         .executeQuery("SELECT * FROM users")
         ) {
+            users = new ArrayList<>();
             while (resultSet.next()) {
                 User user = new User(
                         resultSet.getString("name"),
@@ -76,11 +77,10 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setId(resultSet.getLong("id"));
                 users.add(user);
             }
-            return users;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return users;
     }
 
     public void cleanUsersTable() {
