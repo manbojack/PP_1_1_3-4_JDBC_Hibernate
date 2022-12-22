@@ -117,7 +117,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 System.out.println("WARNING: User c id=" + id + " не найден.");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return user;
     }
