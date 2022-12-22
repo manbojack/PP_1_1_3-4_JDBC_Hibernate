@@ -23,6 +23,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 "age INT)";
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(SQL);
+            System.out.println("INFO: Таблица users была создана.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,6 +32,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS users");
+            System.out.println("INFO: Таблица users была удалена.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,6 +46,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
+            System.out.println("User с именем – " + name + " добавлен в базу данных ");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,6 +92,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("TRUNCATE TABLE users");
+            System.out.println("INFO: Таблица users была очищена.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
