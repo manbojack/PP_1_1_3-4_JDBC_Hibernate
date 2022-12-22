@@ -110,7 +110,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 );
                 user.setId(resultSet.getLong("id"));
             } else {
-                System.out.println("No User found with id=" + id);
+                System.out.println("WARNING: User c id=" + id + " не найден.");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
