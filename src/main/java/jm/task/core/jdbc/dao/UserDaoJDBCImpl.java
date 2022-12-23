@@ -23,7 +23,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 "age INT)";
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(SQL);
-            System.out.println("INFO: Таблица users была создана.");
+            System.out.println("[INFO]: Таблица users была создана.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -32,7 +32,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DROP TABLE IF EXISTS users");
-            System.out.println("INFO: Таблица users была удалена.");
+            System.out.println("[INFO]: Таблица users была удалена.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("TRUNCATE TABLE users");
-            System.out.println("INFO: Таблица users была очищена.");
+            System.out.println("[INFO]: Таблица users была очищена.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -111,7 +111,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 );
                 user.setId(resultSet.getLong("id"));
             } else {
-                System.out.println("WARNING: User c id=" + id + " не найден.");
+                System.out.println("[WARNING]: User c id=" + id + " не найден.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
