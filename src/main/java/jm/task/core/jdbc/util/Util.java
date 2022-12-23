@@ -8,6 +8,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import jm.task.core.jdbc.model.User;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+
 public class Util {
     private static final Properties config = getProperties();
     private static Connection connection = null;
@@ -35,6 +42,13 @@ public class Util {
             ex.printStackTrace();
         }
         return properties;
+    }
+
+    public static Session getSession() throws HibernateException {
+        SessionFactory sessionFactory = new Configuration()
+                .addAnnotatedClass(User.class)
+                .buildSessionFactory();
+        return sessionFactory.openSession();
     }
 
 }
