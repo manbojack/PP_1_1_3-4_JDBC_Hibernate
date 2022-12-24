@@ -32,7 +32,7 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("[INFO]: Таблица users была создана.");
         } catch (SQLException e) {
             System.out.println("[ERROR]: Таблица users не создана.");
-            rolloutDB(connection, savepoint);
+            rollbackBDChanges(connection, savepoint);
         } finally {
             try {
                 if (statement != null) {
@@ -58,7 +58,7 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("[INFO]: Таблица users была удалена.");
         } catch (SQLException e) {
             e.printStackTrace();
-            rolloutDB(connection, savepoint);
+            rollbackBDChanges(connection, savepoint);
         } finally {
             try {
                 if (statement != null) {
@@ -89,7 +89,7 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("User с именем – " + name + " добавлен в базу данных ");
         } catch (SQLException e) {
             e.printStackTrace();
-            rolloutDB(connection, savepoint);
+            rollbackBDChanges(connection, savepoint);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -115,7 +115,7 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            rolloutDB(connection, savepoint);
+            rollbackBDChanges(connection, savepoint);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -175,7 +175,7 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("[INFO]: Таблица users была очищена.");
         } catch (SQLException e) {
             e.printStackTrace();
-            rolloutDB(connection, savepoint);
+            rollbackBDChanges(connection, savepoint);
         } finally {
             try {
                 if (statement != null) {
@@ -224,7 +224,7 @@ public class UserDaoJDBCImpl implements UserDao {
         return user;
     }
 
-    private void rolloutDB(Connection connection, Savepoint savepoint) {
+    private void rollbackBDChanges(Connection connection, Savepoint savepoint) {
         try {
             System.out.println("[INFO]: Откат БД ...");
             connection.rollback(savepoint);
