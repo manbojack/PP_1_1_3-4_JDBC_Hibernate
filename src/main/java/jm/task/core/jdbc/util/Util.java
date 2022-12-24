@@ -20,9 +20,9 @@ public class Util {
                     config.getProperty("db.password")
             );
             connection.setAutoCommit(false);
-            System.out.println("Connection OK");
+            System.out.println("[INFO]: Connection OK");
         } catch (SQLException e) {
-            System.err.println("Connection ERROR");
+            System.err.println("[ERROR]: Connection ERROR");
         }
         return connection;
     }
