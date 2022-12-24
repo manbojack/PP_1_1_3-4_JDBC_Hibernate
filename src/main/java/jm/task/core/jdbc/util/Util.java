@@ -26,9 +26,10 @@ public class Util {
                     config.getProperty("db.user"),
                     config.getProperty("db.password")
             );
-            System.out.println("Connection OK");
+            connection.setAutoCommit(false);
+            System.out.println("[INFO]: Connection OK");
         } catch (SQLException e) {
-            System.err.println("Connection ERROR");
+            System.err.println("[ERROR]: Connection ERROR");
         }
         return connection;
     }
