@@ -15,11 +15,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         Connection connection = null;
-        Savepoint savepoint = null;
         Statement statement = null;
         try {
             connection = Util.getConnection();
-            savepoint = connection.setSavepoint("Savepoint");
             statement = connection.createStatement();
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS users " +
@@ -32,7 +30,7 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("[INFO]: Таблица users была создана.");
         } catch (SQLException e) {
             System.out.println("[ERROR]: Таблица users не создана.");
-            rollbackBDChanges(connection, savepoint);
+            rollbackBDChanges(connection);
         } finally {
             try {
                 if (statement != null) {
@@ -47,18 +45,16 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         Connection connection = null;
-        Savepoint savepoint = null;
         Statement statement = null;
         try {
             connection = Util.getConnection();
-            savepoint = connection.setSavepoint("savepoint");
             statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE IF EXISTS users");
             connection.commit();
             System.out.println("[INFO]: Таблица users была удалена.");
         } catch (SQLException e) {
             e.printStackTrace();
-            rollbackBDChanges(connection, savepoint);
+            rollbackBDChanges(connection);
         } finally {
             try {
                 if (statement != null) {
@@ -73,11 +69,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         Connection connection = null;
-        Savepoint savepoint = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = Util.getConnection();
-            savepoint = connection.setSavepoint("savepoint");
             preparedStatement = connection.prepareStatement(
                     "INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)"
             );
@@ -89,7 +83,7 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("User с именем – " + name + " добавлен в базу данных ");
         } catch (SQLException e) {
             e.printStackTrace();
-            rollbackBDChanges(connection, savepoint);
+            rollbackBDChanges(connection);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -104,18 +98,16 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         Connection connection = null;
-        Savepoint savepoint = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = Util.getConnection();
-            savepoint = connection.setSavepoint("savepoint");
             preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            rollbackBDChanges(connection, savepoint);
+            rollbackBDChanges(connection);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -164,18 +156,16 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         Connection connection = null;
-        Savepoint savepoint = null;
         Statement statement = null;
         try {
             connection = Util.getConnection();
-            savepoint = connection.setSavepoint("savepoint");
             statement = connection.createStatement();
             statement.executeUpdate("TRUNCATE TABLE users");
             connection.commit();
             System.out.println("[INFO]: Таблица users была очищена.");
         } catch (SQLException e) {
             e.printStackTrace();
-            rollbackBDChanges(connection, savepoint);
+            rollbackBDChanges(connection);
         } finally {
             try {
                 if (statement != null) {
@@ -188,10 +178,10 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-    private void rollbackBDChanges(Connection connection, Savepoint savepoint) {
+    private void rollbackBDChanges(Connection connection) {
         try {
             System.out.println("[INFO]: Откат БД ...");
-            connection.rollback(savepoint);
+            connection.rollback();
             System.out.println("[INFO]: БД откатилась.");
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
