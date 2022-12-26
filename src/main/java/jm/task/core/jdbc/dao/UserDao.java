@@ -16,6 +16,4 @@ public interface UserDao {
     List<User> getAllUsers();
 
     void cleanUsersTable();
-
-    User getUserById(long id);
 }

@@ -188,42 +188,6 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
-    public User getUserById(long id) {
-        User user = null;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = Util.getConnection();
-            preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
-            preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                user = new User(
-                        resultSet.getString("name"),
-                        resultSet.getString("lastName"),
-                        resultSet.getByte("age")
-                );
-                user.setId(resultSet.getLong("id"));
-            } else {
-                System.out.println("[WARNING]: User c id=" + id + " не найден.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                    preparedStatement.close();
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return user;
-    }
-
     private void rollbackBDChanges(Connection connection, Savepoint savepoint) {
         try {
             System.out.println("[INFO]: Откат БД ...");

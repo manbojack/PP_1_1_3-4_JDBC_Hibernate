@@ -32,9 +32,4 @@ public class UserServiceImpl implements UserService {
     public void cleanUsersTable() {
         userDaoJDBC.cleanUsersTable();
     }
-
-    public User getUserById(long id) {
-        return userDaoJDBC.getUserById(id);
-    }
-
 }
