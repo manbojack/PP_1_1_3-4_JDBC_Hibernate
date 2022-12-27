@@ -2,7 +2,7 @@
 
 #### <b>DAO слой:</b>
 >- ##### [interface UserDAO](src/main/java/jm/task/core/jdbc/dao/UserDao.java)
->- ###### [class UserDaoJDBCImpl](src/main/java/jm/task/core/jdbc/dao/UserDaoJDBCImpl.java)
+>- ##### [class UserDaoJDBCImpl](src/main/java/jm/task/core/jdbc/dao/UserDaoJDBCImpl.java)
 >- ##### class UserDaoHibernateImpl ( в данной задаче не используется )
 
 #### <b>Service слой:</b>
