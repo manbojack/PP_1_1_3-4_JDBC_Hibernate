@@ -5,6 +5,9 @@
 >- ###### class UserDaoJDBCImpl ( в данной задаче не используется )
 >- ##### [class UserDaoHibernateImpl](src/main/java/jm/task/core/jdbc/dao/UserDaoHibernateImpl.java)
 
+#### <b>Model слой:</b>
+>- ##### [class User](src/main/java/jm/task/core/jdbc/model/User.java)
+
 #### <b>Service слой:</b>
 >- ##### [interface UserService](src/main/java/jm/task/core/jdbc/service/UserService.java)
 >- ##### [class UserServiceImpl](src/main/java/jm/task/core/jdbc/service/UserServiceImpl.java)
