@@ -73,6 +73,10 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-
+        try (Session session = Util.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.createNativeQuery("TRUNCATE TABLE User").executeUpdate();
+            transaction.commit();
+        }
     }
 }
