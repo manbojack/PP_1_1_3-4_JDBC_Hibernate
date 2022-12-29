@@ -8,19 +8,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import jm.task.core.jdbc.model.User;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
+import jm.task.core.jdbc.model.User;
 
 public class Util {
     private static final Properties property = getProperties();
     private static Connection connection = null;
+    private static SessionFactory sessionFactory;
 
     public static Connection getConnection() {
         try {
@@ -48,7 +47,6 @@ public class Util {
         return properties;
     }
 
-    private static SessionFactory sessionFactory;
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
@@ -56,17 +54,17 @@ public class Util {
 
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
-                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/test?useSSL=false");
-                settings.put(Environment.USER, "test");
-                settings.put(Environment.PASS, "test");
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
-
-                settings.put(Environment.SHOW_SQL, "true");
-
-                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-
-                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
+                settings.put(Environment.DRIVER, property.getProperty("db.hibernate.driver"));
+                settings.put(Environment.URL, property.getProperty("db.hibernate.url"));
+                settings.put(Environment.USER, property.getProperty("db.hibernate.user"));
+                settings.put(Environment.PASS, property.getProperty("db.hibernate.password"));
+                settings.put(Environment.DIALECT, property.getProperty("db.hibernate.dialect"));
+                settings.put(Environment.SHOW_SQL, property.getProperty("db.hibernate.showSQL"));
+                settings.put(Environment.HBM2DDL_AUTO, property.getProperty("db.hibernate.HBM2DDL_AUTO"));
+                settings.put(
+                        Environment.CURRENT_SESSION_CONTEXT_CLASS,
+                        property.getProperty("db.hibernate.currentSessionContextClass")
+                );
 
                 configuration.setProperties(settings);
 
