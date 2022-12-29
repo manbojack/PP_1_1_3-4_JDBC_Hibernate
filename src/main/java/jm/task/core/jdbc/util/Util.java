@@ -19,15 +19,15 @@ import org.hibernate.service.ServiceRegistry;
 
 
 public class Util {
-    private static final Properties config = getProperties();
+    private static final Properties property = getProperties();
     private static Connection connection = null;
 
     public static Connection getConnection() {
         try {
             connection = DriverManager.getConnection(
-                    config.getProperty("db.url"),
-                    config.getProperty("db.user"),
-                    config.getProperty("db.password")
+                    property.getProperty("db.url"),
+                    property.getProperty("db.user"),
+                    property.getProperty("db.password")
             );
             connection.setAutoCommit(false);
             System.out.println("[INFO]: Connection OK");
