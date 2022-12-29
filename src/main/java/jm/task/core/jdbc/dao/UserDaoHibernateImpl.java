@@ -1,8 +1,9 @@
 package jm.task.core.jdbc.dao;
 
-import jm.task.core.jdbc.model.User;
-
 import java.util.List;
+
+import jm.task.core.jdbc.util.Util;
+import jm.task.core.jdbc.model.User;
 
 public class UserDaoHibernateImpl implements UserDao {
     public UserDaoHibernateImpl() {
@@ -32,7 +33,16 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        List<User> users = null;
+        try {
+            users = Util.getSessionFactory()
+                    .openSession()
+                    .createQuery("from User", User.class)
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     @Override
