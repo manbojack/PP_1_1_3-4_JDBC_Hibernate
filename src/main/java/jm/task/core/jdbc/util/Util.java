@@ -39,7 +39,7 @@ public class Util {
 
     private static Properties getProperties() {
         Properties properties = null;
-        try (InputStream input = new FileInputStream("src/main/resources/config.properties")) {
+        try (InputStream input = new FileInputStream("src/main/resources/application.properties")) {
             properties = new Properties();
             properties.load(input);
         } catch (IOException ex) {
