@@ -17,7 +17,3 @@
 
 #### <b>class Main ( точка входа ):</b>
 >- ##### [class Main](src/main/java/jm/task/core/jdbc/Main.java)
-
-
-#### <b>MySQL server:</b>
->- ##### [Запустить docker-контейнер](.docker)
